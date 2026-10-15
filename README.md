@@ -26,7 +26,7 @@ LightStrike is an independent, early-alpha fork of the complete [LightCraft](htt
 | [Ubuntu 24.04](https://github.com/Gerbzz/LightStrike/actions/runs/38723828993) | Built the editor and CLI; imported, edited and exported generated images; launched the real desktop app under Xvfb/Glow and captured the native editor after its active render settled. |
 | [Headless UI and export](https://github.com/Gerbzz/LightStrike/actions/runs/38721570167) | Captured the [startup](docs/images/lightstrike-startup-headless.png) and [About](docs/images/lightstrike-about-headless.png) views through the egui snapshot path, plus a [synthetic export](docs/images/lightstrike-synthetic-export.png). These are UI renders, not native-window screenshots. |
 
-The images and verification above were produced from application work in [draft PR #1](https://github.com/Gerbzz/LightStrike/pull/1); that application code is **not merged into `main`**. Real camera RAW variants, colour accuracy, lens profiles, masks, high-DPI behavior, macOS, large libraries and installed packages need representative testing. This repository offers **no public installer or release** yet. See the [verification ledger](docs/LIGHTSTRIKE_STATUS.md) and [upstream roadmap](ROADMAP.md).
+The images and verification above were produced from application code reviewed and merged in [PR #1](https://github.com/Gerbzz/LightStrike/pull/1). Real camera RAW variants, colour accuracy, lens profiles, masks, high-DPI behavior, macOS, large libraries and installed packages need representative testing. This repository offers **no public installer or release** yet. See the [verification ledger](docs/LIGHTSTRIKE_STATUS.md) and [upstream roadmap](ROADMAP.md).
 
 ## Build from source
 
