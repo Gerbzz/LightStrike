@@ -16,6 +16,7 @@ The upstream workspace requires Rust 1.95 for its UI crate. Native binaries stil
 cargo run --release -p lightcraft
 cargo run --release -p lightcraft-cli -- render input.png -o output.png --set light.exposure=0.5
 cargo run --release -p lightcraft-cli -- snapshot --demo -o home.png --size 1600x1000
+cargo run --release -p lightcraft-cli -- snapshot --demo --startup-brand -o startup.png --size 1280x800
 ```
 
 The photo workflow is library import, culling, non-destructive development, persisted edits, reopen, and export. Synthetic image verification will be recorded in the status document and draft PR; these examples alone are not a claim that every raw camera, GPU, or platform works.

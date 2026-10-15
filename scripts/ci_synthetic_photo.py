@@ -85,7 +85,11 @@ def main() -> None:
     run(binary, "snapshot", "--demo", "--script", str(script), "-o", str(about), "--size", "1280x800")
     if dimensions(about) != (1280, 800):
         raise AssertionError(f"unexpected About capture size: {dimensions(about)!r}")
-    print(json.dumps({"source_sha256": before, "reopen_exposure": 0.75, "export_size": [60, 40], "about_size": [1280, 800]}))
+    startup = out_dir / "startup.png"
+    run(binary, "snapshot", "--demo", "--startup-brand", "-o", str(startup), "--size", "1280x800")
+    if dimensions(startup) != (1280, 800) or startup.read_bytes() == about.read_bytes():
+        raise AssertionError("the startup capture is missing or duplicates About")
+    print(json.dumps({"source_sha256": before, "reopen_exposure": 0.75, "export_size": [60, 40], "about_size": [1280, 800], "startup_size": [1280, 800]}))
 
 
 if __name__ == "__main__":

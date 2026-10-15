@@ -44,6 +44,7 @@ jobs:
           name: lightstrike-synthetic-evidence
           path: |
             ${{ runner.temp }}/lightstrike-evidence/about.png
+            ${{ runner.temp }}/lightstrike-evidence/startup.png
             ${{ runner.temp }}/lightstrike-evidence/developed.png
           if-no-files-found: ignore
           retention-days: 1
