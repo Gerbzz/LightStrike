@@ -1,0 +1,59 @@
+name: LightStrike Windows bounded smoke
+
+on:
+  push:
+    branches: [feature/lightstrike-foundation]
+    paths:
+      - .github/workflows/lightstrike-windows-smoke.yml
+      - scripts/ci_windows_native.ps1
+      - scripts/ci_synthetic_photo.py
+      - apps/**
+      - crates/**
+      - Cargo.toml
+      - Cargo.lock
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows-photo-editor:
+    if: github.repository == 'Gerbzz/LightStrike'
+    runs-on: windows-2025
+    timeout-minutes: 55
+    env:
+      CARGO_INCREMENTAL: '0'
+      CARGO_BUILD_JOBS: '2'
+      LIGHTCRAFT_GPU: '0'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install pinned Rust
+        shell: pwsh
+        run: rustup toolchain install 1.95.0 --profile minimal
+      - name: Build full desktop editor and CLI
+        shell: pwsh
+        run: cargo +1.95.0 build --locked --profile smoke --no-default-features -p lightcraft -p lightcraft-cli
+      - name: Verify Windows import, develop, save, reopen and exports
+        shell: pwsh
+        run: |
+          python scripts/ci_synthetic_photo.py target/smoke/lightcraft-cli.exe "$env:RUNNER_TEMP/lightstrike-windows"
+          if ($LASTEXITCODE -ne 0) { throw 'Windows photo workflow failed' }
+      - name: Launch native photo editor and capture settled workspace when available
+        shell: pwsh
+        run: ./scripts/ci_windows_native.ps1 -Executable target/smoke/lightcraft.exe -Output "$env:RUNNER_TEMP/lightstrike-windows"
+      - name: Preserve only small Windows photo evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lightstrike-windows-evidence
+          path: |
+            ${{ runner.temp }}/lightstrike-windows/developed.png
+            ${{ runner.temp }}/lightstrike-windows/jpeg-import-export.png
+            ${{ runner.temp }}/lightstrike-windows/startup.png
+            ${{ runner.temp }}/lightstrike-windows/about.png
+            ${{ runner.temp }}/lightstrike-windows/native-editor.png
+            ${{ runner.temp }}/lightstrike-windows/native-status.json
+          retention-days: 1
+          if-no-files-found: ignore

@@ -72,6 +72,18 @@ def main() -> None:
             raise AssertionError("the imported original changed")
         if dimensions(exported) != (60, 40):
             raise AssertionError(f"unexpected export dimensions: {dimensions(exported)!r}")
+        jpeg = base / "generated.jpg"
+        run(binary, "render", str(source), "-o", str(jpeg))
+        if not jpeg.read_bytes().startswith(b"\xff\xd8\xff"):
+            raise AssertionError("synthetic JPEG encoder did not write a JPEG")
+        jpeg_export = out_dir / "jpeg-import-export.png"
+        jpeg_lines = run(
+            binary, "run", "--library", str(base / "jpeg-library"), "--import", str(jpeg),
+            "develop.set", "control=light.exposure", "value=0.5",
+            "app.export", f"path={jpeg_export}", "width=48",
+        )
+        if len(jpeg_lines) != 2 or dimensions(jpeg_export) != (48, 32):
+            raise AssertionError(f"synthetic JPEG import/export failed: {jpeg_lines!r}")
 
     # The same complete UI code path renders the About panel headlessly. This
     # does not claim a native window or platform graphics-driver acceptance.
@@ -85,7 +97,11 @@ def main() -> None:
     run(binary, "snapshot", "--demo", "--script", str(script), "-o", str(about), "--size", "1280x800")
     if dimensions(about) != (1280, 800):
         raise AssertionError(f"unexpected About capture size: {dimensions(about)!r}")
-    print(json.dumps({"source_sha256": before, "reopen_exposure": 0.75, "export_size": [60, 40], "about_size": [1280, 800]}))
+    startup = out_dir / "startup.png"
+    run(binary, "snapshot", "--demo", "--startup-brand", "-o", str(startup), "--size", "1280x800")
+    if dimensions(startup) != (1280, 800) or startup.read_bytes() == about.read_bytes():
+        raise AssertionError("the startup capture is missing or duplicates About")
+    print(json.dumps({"source_sha256": before, "reopen_exposure": 0.75, "export_size": [60, 40], "jpeg_import_export_size": [48, 32], "about_size": [1280, 800], "startup_size": [1280, 800]}))
 
 
 if __name__ == "__main__":

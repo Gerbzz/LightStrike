@@ -486,7 +486,12 @@ pub struct LightcraftApp {
 impl LightcraftApp {
     /// Show a short branded introduction on native launch, without delaying headless work.
     pub fn begin_startup_brand(&mut self) {
-        self.startup_brand_until = Some(now_ms() + 1200.0);
+        self.begin_startup_brand_for(std::time::Duration::from_millis(1200));
+    }
+
+    /// Let a snapshot host hold the same screen long enough to capture it.
+    pub fn begin_startup_brand_for(&mut self, duration: std::time::Duration) {
+        self.startup_brand_until = Some(now_ms() + duration.as_secs_f64() * 1000.0);
     }
 
     pub fn new(mut session: Session, services: Services) -> Self {
@@ -1435,7 +1440,7 @@ impl LightcraftApp {
             ctx.request_repaint();
             return;
         }
-        if !self.headless_host && self.startup_brand_until.is_some_and(|until| now_ms() < until) {
+        if self.startup_brand_until.is_some_and(|until| now_ms() < until) {
             brand::startup(ui);
             ctx.request_repaint_after(std::time::Duration::from_millis(33));
             return;
