@@ -2,9 +2,9 @@
 
 **An open-source photo library and non-destructive developer built in Rust.** Organize photographs, refine them with persistent adjustments, and export the result from a native desktop application or its CLI.
 
-![LightStrike native Windows photo editor showing a developed image, histogram and controls](docs/images/lightstrike-native-editor-windows2025.png)
+![LightStrike native Windows photo editor showing a developed image, histogram and controls](docs/images/lightstrike-native-editor-windows2025-cropped.png)
 
-*The real LightStrike editor on a standard hosted Windows 2025 runner. Its active procedural demo image had finished rendering before this unmodified 1040×807 window capture. [See the green run](https://github.com/Gerbzz/LightStrike/actions/runs/38744234003).*
+*The real LightStrike editor on a standard hosted Windows 2025 runner. Its active procedural demo image had finished rendering before capture. This pixel-exact 964×668 crop contains only the app window; the [full 1040×807 runner capture](docs/images/lightstrike-native-editor-windows2025.png) is retained. [See the green run](https://github.com/Gerbzz/LightStrike/actions/runs/38744234003).*
 
 LightStrike is an independent, early-alpha fork of the complete [LightCraft](https://github.com/storytold/lightcraft) application. Its Rust workspace contains the desktop editor, catalog and import engine, image pipeline, raw codecs, CLI, export paths and web host. The features below are present in source; the [verified workflows](#verified-workflows) show what this fork has exercised.
 
