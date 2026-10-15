@@ -14,7 +14,8 @@ $start.ArgumentList.Add('--memory')
 $start.ArgumentList.Add('--control')
 $start.ArgumentList.Add('18940')
 $start.UseShellExecute = $false
-$start.Environment['LIGHTCRAFT_GPU_BACKEND'] = 'glow'
+# Let the application's Windows renderer probe DX12, Vulkan and GL in order.
+# The public Windows runner has no OpenGL 2.0 context for forced glow.
 $start.Environment['LIGHTCRAFT_GPU'] = '0'
 $start.Environment['LIGHTCRAFT_NO_PREFS'] = '1'
 $process = [System.Diagnostics.Process]::Start($start)
