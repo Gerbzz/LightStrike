@@ -1,0 +1,8 @@
+asset:        lightstrike-about-headless.png
+title:        LightStrike About panel with upstream credit, shown over procedural demo media
+author:       LightStrike and LightCraft contributors; PWDS company mark owned by Pro WebDev Solutions
+source:       https://github.com/Gerbzz/LightStrike/actions/runs/38721570167
+license:      MIT OR Apache-2.0 for app UI and procedural media; LicenseRef-PWDS-Brand for embedded company mark
+license-file: ../../LICENSE-MIT; ../../LICENSE-APACHE; ../../assets/branding/LICENSE-brand.txt
+added:        2026-10-15 by Gerbzz
+notes:        Unmodified artifact from code commit f8682b23d2e74a4fec8b5277fc757d17ff26fe39. Ubuntu 24.04, Rust 1.95.0, 1280x800 headless CPU egui renderer; procedural scene pixels, no third-party photo. Does not prove a native graphics window.

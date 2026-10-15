@@ -18,15 +18,19 @@ Darktable and RawTherapee are mature alternatives for photo development, but the
 - Full source snapshot and required upstream notices, without the restricted ArtCraft artwork.
 - Independent LightStrike desktop identity and approved PWDS mark on the initial loading screen and About panel.
 - Independent repository/help/issue links in the visible app UI; original project credited in About and documentation.
-- Hosted verification workflow: pending.
+- Hosted verification workflow passed at code revision `f8682b2`; exact captures are preserved in `docs/images/` with attribution.
 
 ## Verification
 
-The inherited source pin, licence texts, app-icon licence, and separate brand terms were reviewed directly. No local Rust compilation was run because the shared C: drive and build slot are reserved for another app. Hosted build, synthetic import/develop/save/reopen/export, and UI captures are pending and must be attached here with exact run and commit before any release claim.
+The inherited source pin, licence texts, app-icon licence, and separate brand terms were reviewed directly. No local Rust compilation was run because the shared C: drive and build slot are reserved for another app. Local `cargo fmt --all --check`, offline locked metadata resolution, Python syntax, and changed-file whitespace checks passed.
+
+[Hosted run 38721570167](https://github.com/Gerbzz/LightStrike/actions/runs/38721570167) passed at code commit `f8682b23d2e74a4fec8b5277fc757d17ff26fe39` on public Ubuntu 24.04 with Rust 1.95.0. It built the complete desktop and CLI binaries in an unoptimized `smoke` profile with optional default denoise disabled. The script generated a 96×64 PNG; imported it into a real persistent library; set exposure to 0.75; exported a 60×40 PNG; reopened the library in another process and confirmed the saved edit; and verified the imported original's SHA-256 was unchanged. It rendered 1280×800 startup and About screens through the CPU headless egui host. The exact [startup](images/lightstrike-startup-headless.png), [About](images/lightstrike-about-headless.png), and [export](images/lightstrike-synthetic-export.png) images were downloaded, compared by hash with their run artifacts, and visually inspected. The initial [run 38721423352](https://github.com/Gerbzz/LightStrike/actions/runs/38721423352) stopped before compilation because the new UI image dependency lacked a lockfile entry; commit `f8682b2` corrected it.
+
+These results establish a synthetic Linux source baseline. The screenshot additions after `f8682b2` change documentation/assets only; they do not change application code.
 
 ## Remaining
 
-- Confirm hosted Linux desktop and CLI builds, a native or headless branded UI capture, and synthetic end-to-end image workflow.
-- Validate Windows and macOS behavior and package identity before a downloadable release.
+- Validate native Linux window behavior and Windows/macOS behavior, plus package identity, before a downloadable release.
+- Add licensed JPEG and representative raw camera fixtures, colour/mask checks, and visual comparison against independent reference cases.
 - Address camera colour, raw variants, lens database, rendering fidelity, AI model terms, and large-library stability using measured fixtures; see upstream ROADMAP.md and docs/gaps.md for source-project details.
 - Replace the temporary, openly licensed upstream app icon with approved LightStrike artwork when one exists. Do not create a new logo from the restricted ArtCraft marks.

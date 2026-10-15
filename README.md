@@ -19,7 +19,17 @@ cargo run --release -p lightcraft-cli -- snapshot --demo -o home.png --size 1600
 cargo run --release -p lightcraft-cli -- snapshot --demo --startup-brand -o startup.png --size 1280x800
 ```
 
-The photo workflow is library import, culling, non-destructive development, persisted edits, reopen, and export. Synthetic image verification will be recorded in the status document and draft PR; these examples alone are not a claim that every raw camera, GPU, or platform works.
+The photo workflow is library import, culling, non-destructive development, persisted edits, reopen, and export. The synthetic import/edit/reopen/export baseline is recorded below and in the status document; it does not establish support for every raw camera, GPU, or platform.
+
+## Captures from the verified hosted run
+
+[Ubuntu 24.04 run 38721570167](https://github.com/Gerbzz/LightStrike/actions/runs/38721570167) built the desktop and CLI binaries at code commit `f8682b2`. These unchanged images were rendered by the real egui UI headlessly on the CPU at 1280×800, then downloaded and inspected. They do not establish native-window acceptance. The [asset index](assets/ATTRIBUTION.md) and sidecars give source and licence details.
+
+![LightStrike startup screen with approved PWDS mark](docs/images/lightstrike-startup-headless.png)
+
+![LightStrike About panel over a procedural demo catalog](docs/images/lightstrike-about-headless.png)
+
+The [synthetic edited PNG](docs/images/lightstrike-synthetic-export.png) was produced by the same run's import, edit, save, reopen, and export check.
 
 ## Current limits
 
