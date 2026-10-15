@@ -1,0 +1,8 @@
+asset:        lightstrike-native-editor-windows2025-cropped.png
+title:        LightStrike native Windows photo editor cropped to its application window
+author:       LightStrike and LightCraft contributors
+source:       https://github.com/Gerbzz/LightStrike/actions/runs/38744234003
+license:      MIT OR Apache-2.0
+license-file: ../../LICENSE-MIT; ../../LICENSE-APACHE
+added:        2026-10-15 by Gerbzz
+notes:        Pixel-exact crop (x=8, y=0, width=964, height=668) of lightstrike-native-editor-windows2025.png; all 643952 pixels match the source. The full 1040x807 capture remains alongside this file. The crop removes the runner's console strip, taskbar, and black margins without changing the visible app window. The source uses generated demo imagery, not a real camera photograph.

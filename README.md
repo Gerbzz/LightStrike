@@ -1,42 +1,51 @@
 # LightStrike
 
-LightStrike is a public, independent PWDS source fork of [LightCraft](https://github.com/storytold/lightcraft), a photo library and non-destructive raw developer written in Rust. This repository contains the complete application workspace: desktop UI, headless CLI, web host, catalog, image pipeline, raw codecs, exports, and supporting crates. It is not a mock interface or an extracted library.
+**An open-source photo library and non-destructive developer built in Rust.** Organize photographs, refine them with persistent adjustments, and export the result from a native desktop application or its CLI.
 
-The source snapshot is pinned to LightCraft commit [`0da998f24dfc03069d49867f8877af2bf7c51f94`](https://github.com/storytold/lightcraft/commit/0da998f24dfc03069d49867f8877af2bf7c51f94). Internal `lightcraft-*` crate and binary names remain for compatibility while the visible product identity is being integrated. See [integration status](docs/LIGHTSTRIKE_STATUS.md) for verified work and open gaps.
+![LightStrike native Windows photo editor showing a developed image, histogram and controls](docs/images/lightstrike-native-editor-windows2025-cropped.png)
 
-## Source and licences
+*The real LightStrike editor on a standard hosted Windows 2025 runner. Its active procedural demo image had finished rendering before capture. This pixel-exact 964×668 crop contains only the app window; the [full 1040×807 runner capture](docs/images/lightstrike-native-editor-windows2025.png) is retained. [See the green run](https://github.com/Gerbzz/LightStrike/actions/runs/38744234003).*
 
-The inherited software is available under MIT OR Apache-2.0; see [NOTICE](NOTICE), [MIT](LICENSE-MIT), [Apache-2.0](LICENSE-APACHE), and the [asset attribution index](assets/ATTRIBUTION.md). Upstream `docs/brand/` contains ArtCraft trademarks under separate terms and is deliberately absent from this repository's public root history. The existing PWDS mark used for LightStrike is under [its own terms](assets/branding/LICENSE-brand.txt). The inherited lynx app icon is openly licensed, but remains temporary LightCraft artwork until an approved LightStrike icon is available.
+LightStrike is an independent, early-alpha fork of the complete [LightCraft](https://github.com/storytold/lightcraft) application. Its Rust workspace contains the desktop editor, catalog and import engine, image pipeline, raw codecs, CLI, export paths and web host. The features below are present in source; the [verified workflows](#verified-workflows) show what this fork has exercised.
 
-## Build and workflow
+## Work with photographs
 
-The upstream workspace requires Rust 1.95 for its UI crate. Native binaries still use upstream package names:
+- **Browse and cull:** import files into a persistent library, inspect images in the loupe and filmstrip, and use catalog metadata.
+- **Develop non-destructively:** adjustment controls, masks and presets are represented in the application. Edits remain in the library while originals stay intact.
+- **Export and automate:** render developed photographs through the native UI or `lightcraft-cli`. Internal crate and binary names remain `lightcraft-*` for compatibility.
+
+![LightStrike native Ubuntu editor with a developed procedural image](docs/images/lightstrike-native-home-ubuntu24.png)
+
+*A separate 1280×800 native Ubuntu editor capture from a [green hosted run](https://github.com/Gerbzz/LightStrike/actions/runs/38723828993). The loupe image is procedural demo media, not a licensed camera photograph; background thumbnails were still queued on the unoptimized CPU runner.*
+
+## Verified workflows
+
+| Environment | Result |
+| --- | --- |
+| [Windows 2025](https://github.com/Gerbzz/LightStrike/actions/runs/38744234003) | Built the full editor and CLI; generated and imported PNG and JPEG images; saved exposure 0.75 in a library; reopened the edit in another process; exported 60×40 and 48×32 PNGs; confirmed the imported original's hash was unchanged; and captured the settled native editor above. |
+| [Ubuntu 24.04](https://github.com/Gerbzz/LightStrike/actions/runs/38723828993) | Built the editor and CLI; imported, edited and exported generated images; launched the real desktop app under Xvfb/Glow and captured the native editor after its active render settled. |
+| [Headless UI and export](https://github.com/Gerbzz/LightStrike/actions/runs/38721570167) | Captured the [startup](docs/images/lightstrike-startup-headless.png) and [About](docs/images/lightstrike-about-headless.png) views through the egui snapshot path, plus a [synthetic export](docs/images/lightstrike-synthetic-export.png). These are UI renders, not native-window screenshots. |
+
+The images and verification above were produced from application work in [draft PR #1](https://github.com/Gerbzz/LightStrike/pull/1); that application code is **not merged into `main`**. Real camera RAW variants, colour accuracy, lens profiles, masks, high-DPI behavior, macOS, large libraries and installed packages need representative testing. This repository offers **no public installer or release** yet. See the [verification ledger](docs/LIGHTSTRIKE_STATUS.md) and [upstream roadmap](ROADMAP.md).
+
+## Build from source
+
+Install Rust 1.95 or newer and the native graphics/windowing dependencies for your OS. The following build excludes optional default denoise dependencies, matching the hosted source checks:
 
 ```sh
-cargo run --release -p lightcraft
-cargo run --release -p lightcraft-cli -- render input.png -o output.png --set light.exposure=0.5
-cargo run --release -p lightcraft-cli -- snapshot --demo -o home.png --size 1600x1000
-cargo run --release -p lightcraft-cli -- snapshot --demo --startup-brand -o startup.png --size 1280x800
+git clone https://github.com/Gerbzz/LightStrike.git
+cd LightStrike
+cargo build --locked --no-default-features -p lightcraft -p lightcraft-cli
+cargo run --locked --no-default-features -p lightcraft
+cargo run --locked --no-default-features -p lightcraft-cli -- snapshot --demo -o preview.png --size 1600x1000
 ```
 
-The photo workflow is library import, culling, non-destructive development, persisted edits, reopen, and export. The synthetic import/edit/reopen/export baseline is recorded below and in the status document; it does not establish support for every raw camera, GPU, or platform.
+These are source commands, not installer instructions. The native library workflow and exact synthetic verification are documented in [docs/LIGHTSTRIKE_STATUS.md](docs/LIGHTSTRIKE_STATUS.md).
 
-## Captures from the verified hosted run
+## Project and credits
 
-[Ubuntu 24.04 run 38721570167](https://github.com/Gerbzz/LightStrike/actions/runs/38721570167) built the desktop and CLI binaries at code commit `f8682b2`. These unchanged images were rendered by the real egui UI headlessly on the CPU at 1280×800, then downloaded and inspected. They do not establish native-window acceptance. The [asset index](assets/ATTRIBUTION.md) and sidecars give source and licence details.
+The full application foundation is pinned to [LightCraft commit `0da998f24dfc03069d49867f8877af2bf7c51f94`](https://github.com/storytold/lightcraft/commit/0da998f24dfc03069d49867f8877af2bf7c51f94). The original [MIT](LICENSE-MIT) and [Apache-2.0](LICENSE-APACHE) licences, [NOTICE](NOTICE) and [asset attribution](assets/ATTRIBUTION.md) remain. The inherited openly licensed lynx app icon is temporary LightCraft artwork, not a finished LightStrike icon.
 
-![LightStrike startup screen with approved PWDS mark](docs/images/lightstrike-startup-headless.png)
+<img src="assets/branding/PWDS-logo.png" alt="PWDS publisher mark" width="110">
 
-![LightStrike About panel over a procedural demo catalog](docs/images/lightstrike-about-headless.png)
-
-The [synthetic edited PNG](docs/images/lightstrike-synthetic-export.png) was produced by the same run's import, edit, save, reopen, and export check.
-
-[Ubuntu 24.04 run 38723828993](https://github.com/Gerbzz/LightStrike/actions/runs/38723828993) passed at code commit `fe68809`. It launched the native desktop app under Xvfb with the Glow renderer and waited for `ui.inspect` to report that the active loupe render had finished before taking this unchanged 1280x800 screenshot. The catalog scenes are generated by the inherited LightCraft workspace. Other thumbnail renders were still queued in this unoptimized CPU build.
-
-![LightStrike native Linux editor with rendered catalog image, histogram, filmstrip, and develop controls](docs/images/lightstrike-native-home-ubuntu24.png)
-
-The same run generated a synthetic JPEG, imported it into another library, edited its exposure, and produced this [48x32 export](docs/images/lightstrike-jpeg-import-export.png). The images and their provenance are recorded in the [asset index](assets/ATTRIBUTION.md).
-
-## Current limits
-
-LightCraft's own [roadmap](ROADMAP.md) calls the source alpha. Camera colour calibration, raw variants, lens profiles, render fidelity, AI masks, and Windows/macOS validation remain substantial work. LightStrike's own release and installer readiness will be tracked in [status](docs/LIGHTSTRIKE_STATUS.md). No ArtCraft endorsement is implied.
+LightStrike is published by PWDS. Its existing mark has [separate brand terms](assets/branding/LICENSE-brand.txt). LightStrike is independent of and not endorsed by ArtCraft.
