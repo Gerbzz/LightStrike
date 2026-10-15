@@ -1,0 +1,8 @@
+asset:        lightstrike-native-home-ubuntu24.png
+title:        LightStrike native Linux photo editor with a settled loupe render
+author:       LightStrike and LightCraft contributors
+source:       https://github.com/Gerbzz/LightStrike/actions/runs/38723828993
+license:      MIT OR Apache-2.0
+license-file: ../../LICENSE-MIT; ../../LICENSE-APACHE
+added:        2026-10-15 by Gerbzz
+notes:        Unmodified 1280x800 screenshot artifact from code commit fe68809510fa0b948fca1500a723a74463e56967. Ubuntu 24.04 Xvfb native Glow window; procedural demo photographs by LightCraft contributors. ui.inspect reported the active loupe source render, pending false, failed null. Other thumbnail renders could still be queued. This is not Windows/macOS or real-camera acceptance.
