@@ -1,0 +1,8 @@
+asset:        lightstrike-native-editor-windows2025.png
+title:        LightStrike native Windows photo editor with settled synthetic render
+author:       LightStrike and LightCraft contributors
+source:       https://github.com/Gerbzz/LightStrike/actions/runs/38744234003
+license:      MIT OR Apache-2.0
+license-file: ../../LICENSE-MIT; ../../LICENSE-APACHE
+added:        2026-10-15 by Gerbzz
+notes:        Unmodified 1040x807 window-bounds capture from code commit ce7fcbfca5e88ca2af42e21ae1cf7b0d37949efe on a standard Windows 2025 hosted runner. The running app's ui.inspect reported loupe source render, pending false, failed null before capture. The procedural demo photo and UI are upstream permissively licensed; the surrounding desktop pixels are from an ephemeral public runner. This is not a real-camera fidelity test.

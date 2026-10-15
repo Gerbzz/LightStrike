@@ -18,15 +18,27 @@ Darktable and RawTherapee are mature alternatives for photo development, but the
 - Full source snapshot and required upstream notices, without the restricted ArtCraft artwork.
 - Independent LightStrike desktop identity and approved PWDS mark on the initial loading screen and About panel.
 - Independent repository/help/issue links in the visible app UI; original project credited in About and documentation.
-- Hosted verification workflow: pending.
+- Hosted verification workflow passed at code revision `fe68809`; exact headless, native-window, and export captures are preserved in `docs/images/` with attribution.
 
 ## Verification
 
-The inherited source pin, licence texts, app-icon licence, and separate brand terms were reviewed directly. No local Rust compilation was run because the shared C: drive and build slot are reserved for another app. Hosted build, synthetic import/develop/save/reopen/export, and UI captures are pending and must be attached here with exact run and commit before any release claim.
+The inherited source pin, licence texts, app-icon licence, and separate brand terms were reviewed directly. No local Rust compilation was run because the shared C: drive and build slot are reserved for another app. Local `cargo fmt --all --check`, offline locked metadata resolution, Python syntax, and changed-file whitespace checks passed.
+
+[Hosted run 38721570167](https://github.com/Gerbzz/LightStrike/actions/runs/38721570167) passed at code commit `f8682b23d2e74a4fec8b5277fc757d17ff26fe39` on public Ubuntu 24.04 with Rust 1.95.0. It built the complete desktop and CLI binaries in an unoptimized `smoke` profile with optional default denoise disabled. The script generated a 96×64 PNG; imported it into a real persistent library; set exposure to 0.75; exported a 60×40 PNG; reopened the library in another process and confirmed the saved edit; and verified the imported original's SHA-256 was unchanged. It rendered 1280×800 startup and About screens through the CPU headless egui host. The exact [startup](images/lightstrike-startup-headless.png), [About](images/lightstrike-about-headless.png), and [export](images/lightstrike-synthetic-export.png) images were downloaded, compared by hash with their run artifacts, and visually inspected. The initial [run 38721423352](https://github.com/Gerbzz/LightStrike/actions/runs/38721423352) stopped before compilation because the new UI image dependency lacked a lockfile entry; commit `f8682b2` corrected it.
+
+The later [hosted run 38723828993](https://github.com/Gerbzz/LightStrike/actions/runs/38723828993) passed at code commit `fe68809510fa0b948fca1500a723a74463e56967`. It again built the desktop and CLI binaries and ran the PNG workflow, then generated a synthetic JPEG, imported it into another persistent library, edited exposure, and exported a 48x32 PNG. It launched the actual native desktop app on Ubuntu 24.04 under Xvfb/Glow. The capture script queried the running application's `ui.inspect` state until its active loupe reported `source: render`, `pending: false`, and `failed: null`; only then did it capture the [1280x800 native editor](images/lightstrike-native-home-ubuntu24.png). That image visibly shows the rendered procedural photo, histogram, filmstrip, and develop controls. Some background thumbnails were still queued in this unoptimized CPU run. The exact [JPEG-derived export](images/lightstrike-jpeg-import-export.png) and native image were downloaded, hash-checked against the run artifacts, visually inspected, and indexed with adjacent attribution sidecars.
+
+These results establish a synthetic Linux source baseline with one settled native editor image. The screenshot additions after `fe68809` change documentation/assets only; they do not change application code.
+
+### Windows hosted result
+
+[Windows run 38744234003](https://github.com/Gerbzz/LightStrike/actions/runs/38744234003) passed at code commit `ce7fcbfca5e88ca2af42e21ae1cf7b0d37949efe` on a standard public `windows-2025` runner. The complete desktop and CLI binaries built with optional default denoise disabled. The CLI generated and imported PNG and JPEG inputs, persisted exposure 0.75 in its library, reopened that edit in a second process, exported 60x40 and 48x32 PNGs, and checked the original file's hash was unchanged. It also produced 1280x800 startup and About captures through the UI's headless snapshot path. The native app opened a real Windows window; its control channel reported the active procedural photo render settled (`source: render`, `pending: false`, no failure). I inspected the exact [1040x807 editor capture](images/lightstrike-native-editor-windows2025.png): the photo, histogram, filmstrip and develop controls are visible. The PNG is retained with an adjacent attribution sidecar and its SHA-256 matches the run artifact (`3EC171984DECDBFCADDFE41E0F6BACE5A3C100FC0A1C17F4525CCCB2051422A7`).
+
+[The first Windows attempt](https://github.com/Gerbzz/LightStrike/actions/runs/38743086458) passed build and CLI work but its native test script forced a Glow/OpenGL renderer unsupported by the hosted image. Removing that test-only override let the app use its existing Windows renderer fallback. These Windows results remain synthetic source checks, not acceptance of real-camera color, raw support, installed packages or production stability.
 
 ## Remaining
 
-- Confirm hosted Linux desktop and CLI builds, a native or headless branded UI capture, and synthetic end-to-end image workflow.
-- Validate Windows and macOS behavior and package identity before a downloadable release.
+- Validate native behavior with real camera images, macOS behavior, Windows package identity and additional hardware before a downloadable release.
+- Add representative licensed camera JPEG and raw fixtures, colour/mask checks, and visual comparison against independent reference cases.
 - Address camera colour, raw variants, lens database, rendering fidelity, AI model terms, and large-library stability using measured fixtures; see upstream ROADMAP.md and docs/gaps.md for source-project details.
 - Replace the temporary, openly licensed upstream app icon with approved LightStrike artwork when one exists. Do not create a new logo from the restricted ArtCraft marks.

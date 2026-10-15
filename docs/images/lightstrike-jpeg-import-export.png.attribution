@@ -1,0 +1,8 @@
+asset:        lightstrike-jpeg-import-export.png
+title:        LightStrike JPEG import and exposure-edit export
+author:       LightStrike contributors
+source:       https://github.com/Gerbzz/LightStrike/actions/runs/38723828993
+license:      MIT OR Apache-2.0
+license-file: ../../LICENSE-MIT; ../../LICENSE-APACHE
+added:        2026-10-15 by Gerbzz
+notes:        Unmodified 48x32 PNG artifact from code commit fe68809510fa0b948fca1500a723a74463e56967. The hosted CLI generated a synthetic JPEG, imported it into a persistent library, edited exposure and exported this PNG on Ubuntu 24.04. This does not establish real-camera JPEG or raw fidelity.

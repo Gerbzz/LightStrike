@@ -1,0 +1,8 @@
+asset:        lightstrike-synthetic-export.png
+title:        LightStrike export from a synthetic 96x64 PNG after exposure editing
+author:       LightStrike contributors
+source:       https://github.com/Gerbzz/LightStrike/actions/runs/38721570167
+license:      MIT OR Apache-2.0
+license-file: ../../LICENSE-MIT; ../../LICENSE-APACHE
+added:        2026-10-15 by Gerbzz
+notes:        Unmodified 60x40 PNG artifact from code commit f8682b23d2e74a4fec8b5277fc757d17ff26fe39. Generated original pixels in scripts/ci_synthetic_photo.py; Ubuntu 24.04 headless CLI CPU workflow.
