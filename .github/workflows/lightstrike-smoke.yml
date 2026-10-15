@@ -1,0 +1,49 @@
+name: LightStrike bounded smoke
+
+on:
+  push:
+    branches: [feature/lightstrike-foundation]
+    paths-ignore: ["docs/**", "README.md", "assets/ATTRIBUTION.md"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  photo-workflow:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    env:
+      CARGO_INCREMENTAL: "0"
+      CARGO_BUILD_JOBS: "2"
+      LIGHTCRAFT_GPU: "0"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Confirm environment and free space
+        run: |
+          rustc --version
+          df -h /
+      - name: Install pinned Rust
+        run: |
+          rustup toolchain install 1.95.0 --profile minimal
+          rustup default 1.95.0
+      - name: Build full desktop and CLI binaries
+        run: cargo build --locked --profile smoke --no-default-features -p lightcraft -p lightcraft-cli
+      - name: Check independent product links and exact mark
+        run: |
+          test ! -e docs/brand
+          test -s assets/branding/PWDS-logo.png
+          grep -q 'LightStrike' crates/ui-egui/src/brand.rs
+          grep -q 'https://github.com/Gerbzz/LightStrike' crates/ui-egui/src/links.rs
+      - name: Import, develop, reopen, export, and draw About
+        run: python3 scripts/ci_synthetic_photo.py target/smoke/lightcraft-cli "$RUNNER_TEMP/lightstrike-evidence"
+      - name: Save small visual evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lightstrike-synthetic-evidence
+          path: |
+            ${{ runner.temp }}/lightstrike-evidence/about.png
+            ${{ runner.temp }}/lightstrike-evidence/developed.png
+          if-no-files-found: ignore
+          retention-days: 1
