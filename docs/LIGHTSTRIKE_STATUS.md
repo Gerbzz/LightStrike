@@ -30,9 +30,15 @@ The later [hosted run 38723828993](https://github.com/Gerbzz/LightStrike/actions
 
 These results establish a synthetic Linux source baseline with one settled native editor image. The screenshot additions after `fe68809` change documentation/assets only; they do not change application code.
 
+### Windows hosted result
+
+[Windows run 38744234003](https://github.com/Gerbzz/LightStrike/actions/runs/38744234003) passed at code commit `ce7fcbfca5e88ca2af42e21ae1cf7b0d37949efe` on a standard public `windows-2025` runner. The complete desktop and CLI binaries built with optional default denoise disabled. The CLI generated and imported PNG and JPEG inputs, persisted exposure 0.75 in its library, reopened that edit in a second process, exported 60x40 and 48x32 PNGs, and checked the original file's hash was unchanged. It also produced 1280x800 startup and About captures through the UI's headless snapshot path. The native app opened a real Windows window; its control channel reported the active procedural photo render settled (`source: render`, `pending: false`, no failure). I inspected the exact [1040x807 editor capture](images/lightstrike-native-editor-windows2025.png): the photo, histogram, filmstrip and develop controls are visible. The PNG is retained with an adjacent attribution sidecar and its SHA-256 matches the run artifact (`3EC171984DECDBFCADDFE41E0F6BACE5A3C100FC0A1C17F4525CCCB2051422A7`).
+
+[The first Windows attempt](https://github.com/Gerbzz/LightStrike/actions/runs/38743086458) passed build and CLI work but its native test script forced a Glow/OpenGL renderer unsupported by the hosted image. Removing that test-only override let the app use its existing Windows renderer fallback. These Windows results remain synthetic source checks, not acceptance of real-camera color, raw support, installed packages or production stability.
+
 ## Remaining
 
-- Validate native behavior with real images, Windows/macOS behavior, and package identity before a downloadable release.
+- Validate native behavior with real camera images, macOS behavior, Windows package identity and additional hardware before a downloadable release.
 - Add representative licensed camera JPEG and raw fixtures, colour/mask checks, and visual comparison against independent reference cases.
 - Address camera colour, raw variants, lens database, rendering fidelity, AI model terms, and large-library stability using measured fixtures; see upstream ROADMAP.md and docs/gaps.md for source-project details.
 - Replace the temporary, openly licensed upstream app icon with approved LightStrike artwork when one exists. Do not create a new logo from the restricted ArtCraft marks.
