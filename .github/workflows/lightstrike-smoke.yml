@@ -55,5 +55,6 @@ jobs:
             ${{ runner.temp }}/lightstrike-evidence/jpeg-import-export.png
             ${{ runner.temp }}/lightstrike-evidence/native-home.png
             ${{ runner.temp }}/lightstrike-evidence/desktop.log
+            ${{ runner.temp }}/lightstrike-evidence/native-inspect.json
           if-no-files-found: ignore
           retention-days: 1
