@@ -33,8 +33,9 @@ if [ "$found" != 1 ]; then
     exit 1
 fi
 
-# Let the 1.2-second introduction give way to the real photo workspace.
-sleep 2
+# X11 registers the window before the procedural catalog finishes opening.
+# Allow that work and the 1.2-second introduction to finish before capturing.
+sleep 12
 if ! kill -0 "$app_pid" 2>/dev/null; then
     cat "$out/desktop.log"
     echo "LightStrike desktop exited before the workspace capture" >&2
