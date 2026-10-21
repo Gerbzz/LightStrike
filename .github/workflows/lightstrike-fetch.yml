@@ -1,0 +1,63 @@
+name: LightStrike fetch regressions
+
+on:
+  pull_request:
+    paths:
+      - crates/fetch/**
+      - Cargo.toml
+      - Cargo.lock
+      - rustfmt.toml
+      - scripts/ci_fetch_regressions.py
+      - .github/workflows/lightstrike-fetch.yml
+  push:
+    branches: [main]
+    paths:
+      - crates/fetch/**
+      - Cargo.toml
+      - Cargo.lock
+      - rustfmt.toml
+      - scripts/ci_fetch_regressions.py
+      - .github/workflows/lightstrike-fetch.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  fetch-tests:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    env:
+      CARGO_INCREMENTAL: '0'
+      CARGO_BUILD_JOBS: '2'
+      FETCH_EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.FETCH_EXPECTED_HEAD }}
+          persist-credentials: false
+      - name: Verify exact checkout and environment
+        shell: bash
+        run: |
+          test "$(git rev-parse HEAD)" = "$FETCH_EXPECTED_HEAD"
+          git show -s --format='%H %s'
+          rustup toolchain install 1.95.0 --profile minimal --component rustfmt
+          rustc +1.95.0 --version
+      - name: Check fetch source formatting
+        run: cargo +1.95.0 fmt -p lightcraft-fetch -- --check
+      - name: Compile fetch tests without running them
+        run: cargo +1.95.0 test --locked --profile smoke -p lightcraft-fetch --lib --no-run
+      - name: Execute local synthetic downloader and deadline tests
+        run: cargo +1.95.0 test --locked --profile smoke -p lightcraft-fetch --lib -- --test-threads=1
+      - name: Prove regressions reject synchronous DNS and per-address budgets
+        if: runner.os == 'Linux'
+        run: python3 scripts/ci_fetch_regressions.py
+      - name: Verify restored candidate after mutation checks
+        if: runner.os == 'Linux'
+        run: |
+          git diff --exit-code
+          cargo +1.95.0 test --locked --profile smoke -p lightcraft-fetch --lib -- --test-threads=1
