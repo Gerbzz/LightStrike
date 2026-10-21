@@ -11,7 +11,7 @@
 
 ![LightStrike native Windows photo editor showing a developed image, histogram and controls](docs/images/lightstrike-native-editor-windows2025-cropped.png)
 
-*The real LightStrike editor on a standard hosted Windows 2025 runner on 2026-10-15. Its active procedural demo image had finished rendering before capture. This pixel-exact 964x668 crop contains only the app window; the [full 1040x807 runner capture](docs/images/lightstrike-native-editor-windows2025.png) is retained. [See the green run](https://github.com/Gerbzz/LightStrike/actions/runs/38744234003).*
+*The real LightStrike editor on a standard hosted Windows 2025 runner on 2026-10-15. Its active procedural demo image had finished rendering before capture. This pixel-exact 964×668 crop contains only the app window; the [full 1040×807 runner capture](docs/images/lightstrike-native-editor-windows2025.png) is retained. [See the green run](https://github.com/Gerbzz/LightStrike/actions/runs/38744234003).*
 
 LightStrike is an independent, early-alpha fork of the complete [LightCraft](https://github.com/storytold/lightcraft) application. Its Rust workspace contains the desktop editor, catalog and import engine, image pipeline, raw codecs, CLI, export paths and web host. The features below are present in source; the [verified workflows](#validation-status) show what this fork has exercised.
 
@@ -23,7 +23,7 @@ LightStrike is an independent, early-alpha fork of the complete [LightCraft](htt
 
 ![LightStrike native Ubuntu editor with a developed procedural image](docs/images/lightstrike-native-home-ubuntu24.png)
 
-*A separate 1280x800 native Ubuntu editor capture from a 2026-10-15 [green hosted run](https://github.com/Gerbzz/LightStrike/actions/runs/38723828993). The loupe image is procedural demo media, not a licensed camera photograph; background thumbnails were still queued on the unoptimized CPU runner.*
+*A separate 1280×800 native Ubuntu editor capture from a 2026-10-15 [green hosted run](https://github.com/Gerbzz/LightStrike/actions/runs/38723828993). The loupe image is procedural demo media, not a licensed camera photograph; background thumbnails were still queued on the unoptimized CPU runner.*
 
 ## Build and install
 
@@ -43,7 +43,7 @@ These are source commands, not installer instructions. The native library workfl
 
 | Environment | Result |
 | --- | --- |
-| [Windows 2025](https://github.com/Gerbzz/LightStrike/actions/runs/38744234003) | Built the full editor and CLI; generated and imported PNG and JPEG images; saved exposure 0.75 in a library; reopened the edit in another process; exported 60x40 and 48x32 PNGs; confirmed the imported original's hash was unchanged; and captured the settled native editor above. |
+| [Windows 2025](https://github.com/Gerbzz/LightStrike/actions/runs/38744234003) | Built the full editor and CLI; generated and imported PNG and JPEG images; saved exposure 0.75 in a library; reopened the edit in another process; exported 60×40 and 48×32 PNGs; confirmed the imported original's hash was unchanged; and captured the settled native editor above. |
 | [Ubuntu 24.04](https://github.com/Gerbzz/LightStrike/actions/runs/38723828993) | Built the editor and CLI; imported, edited and exported generated images; launched the real desktop app under Xvfb/Glow and captured the native editor after its active render settled. |
 | [Headless UI and export](https://github.com/Gerbzz/LightStrike/actions/runs/38721570167) | Captured the [startup](docs/images/lightstrike-startup-headless.png) and [About](docs/images/lightstrike-about-headless.png) views through the egui snapshot path, plus a [synthetic export](docs/images/lightstrike-synthetic-export.png). These are UI renders, not native-window screenshots. |
 
