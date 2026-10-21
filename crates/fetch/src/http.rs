@@ -10,7 +10,7 @@
 //! the downloading thread. No proxies (see docs/ai-masks.md).
 
 use std::io::{ErrorKind, Read, Write};
-use std::net::{TcpStream, ToSocketAddrs};
+use std::net::{SocketAddr, TcpStream, ToSocketAddrs};
 use std::sync::Arc;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::time::{Duration, Instant};
@@ -182,27 +182,74 @@ fn tls_config() -> Result<Arc<rustls::ClientConfig>, HttpError> {
     Ok(Arc::new(config))
 }
 
+/// Resolve a host name within `deadline`, checking the cancel flag while it runs. The system resolver blocks with no
+/// timeout of its own, so it runs on a helper thread (which ends when the resolver returns); a lookup that takes too
+/// long is given up on, and Cancel works during it (issue #1532).
+fn lookup(
+    host: &str,
+    resolve: impl FnOnce() -> std::io::Result<Vec<SocketAddr>> + Send + 'static,
+    deadline: Instant,
+    limits: &Limits,
+) -> Result<Vec<SocketAddr>, HttpError> {
+    if limits.cancel.load(Ordering::Relaxed) {
+        return Err(HttpError::Cancelled);
+    }
+    let (tx, rx) = std::sync::mpsc::channel();
+    std::thread::Builder::new()
+        .name("lc-fetch-lookup".into())
+        .spawn(move || {
+            let _ = tx.send(resolve());
+        })
+        .map_err(|e| HttpError::Connect(format!("{host}: {e}")))?;
+    loop {
+        if limits.cancel.load(Ordering::Relaxed) {
+            return Err(HttpError::Cancelled);
+        }
+        let left = deadline.saturating_duration_since(Instant::now());
+        if left.is_zero() {
+            return Err(HttpError::Connect(format!("{host}: the name lookup timed out")));
+        }
+        match rx.recv_timeout(left.min(TICK)) {
+            Ok(r) => return r.map_err(|e| HttpError::Connect(format!("{host}: {e}"))),
+            Err(std::sync::mpsc::RecvTimeoutError::Timeout) => {}
+            Err(std::sync::mpsc::RecvTimeoutError::Disconnected) => return Err(HttpError::Connect(format!("{host}: the name lookup failed"))),
+        }
+    }
+}
+
+/// Connect to the first of `addrs` that answers, all of them together within `deadline` (each used to get the whole
+/// connect timeout of its own, issue #1532). The connector is injectable for local deadline tests.
+fn connect_any(
+    host: &str,
+    addrs: &[SocketAddr],
+    deadline: Instant,
+    limits: &Limits,
+    mut connect: impl FnMut(&SocketAddr, Duration) -> std::io::Result<TcpStream>,
+) -> Result<TcpStream, HttpError> {
+    let mut last = format!("{host}: no address");
+    for a in addrs {
+        if limits.cancel.load(Ordering::Relaxed) {
+            return Err(HttpError::Cancelled);
+        }
+        let left = deadline.saturating_duration_since(Instant::now());
+        if left.is_zero() {
+            return Err(HttpError::Connect(format!("{host}: connecting timed out")));
+        }
+        match connect(a, left) {
+            Ok(s) => return Ok(s),
+            Err(e) => last = format!("{host}: {e}"),
+        }
+    }
+    Err(HttpError::Connect(last))
+}
+
 impl Stream {
     fn connect(url: &Url, limits: &Limits) -> Result<Stream, HttpError> {
-        let addrs: Vec<_> = (url.host.as_str(), url.port).to_socket_addrs().map_err(|e| HttpError::Connect(format!("{}: {e}", url.host)))?.collect();
-        if addrs.is_empty() {
-            return Err(HttpError::Connect(format!("{}: no address", url.host)));
-        }
-        let mut last = String::new();
-        let mut sock = None;
-        for a in addrs {
-            if limits.cancel.load(Ordering::Relaxed) {
-                return Err(HttpError::Cancelled);
-            }
-            match TcpStream::connect_timeout(&a, limits.connect) {
-                Ok(s) => {
-                    sock = Some(s);
-                    break;
-                }
-                Err(e) => last = format!("{}: {e}", url.host),
-            }
-        }
-        let sock = sock.ok_or(HttpError::Connect(last))?;
+        // the lookup and the connection attempts share one connect timeout
+        let deadline = Instant::now() + limits.connect;
+        let (host, port) = (url.host.clone(), url.port);
+        let addrs = lookup(&url.host, move || (host.as_str(), port).to_socket_addrs().map(Iterator::collect), deadline, limits)?;
+        let sock = connect_any(&url.host, &addrs, deadline, limits, TcpStream::connect_timeout)?;
         sock.set_read_timeout(Some(TICK)).map_err(|e| HttpError::Io(e.to_string()))?;
         sock.set_write_timeout(Some(TICK)).map_err(|e| HttpError::Io(e.to_string()))?;
         let _ = sock.set_nodelay(true);
@@ -511,6 +558,9 @@ pub fn get(url: &Url, headers: &[(&str, String)], limits: &Limits) -> Result<Res
     };
     Ok(Response { status, headers, conn, body })
 }
+
+#[cfg(test)]
+mod tests_connect;
 
 #[cfg(test)]
 mod tests {
