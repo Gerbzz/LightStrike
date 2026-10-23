@@ -13,9 +13,20 @@
 
 **Status:** Early alpha. Source builds only; no public installer or release yet.
 
+![LightStrike current native editor with a repository-generated synthetic fixture](docs/images/lightstrike-native-editor-windows2025-20261023.png)
+
+*Unmodified 1024×768 native frame captured on a standard hosted Windows 2025 runner on 23 October 2026 in [successful run 40019671051](https://github.com/Gerbzz/LightStrike/actions/runs/40019671051), exact source `1715ed86637accbfda05c42d8648205d7933bf45`. The real native photo editor with a settled procedural demo landscape, histogram, develop controls, and filmstrip. [Source, hashes and limits](docs/images/lightstrike-native-editor-windows2025-20261023.provenance.json).*
+
+Procedural demo media, not a camera photograph or colour-accuracy test. Runtime and packaged icons are unchanged.
+
+<details>
+<summary>Earlier native capture and its original provenance</summary>
+
 ![LightStrike native Windows photo editor showing a developed image, histogram and controls](docs/images/lightstrike-native-editor-windows2025-cropped.png)
 
 *The real LightStrike editor on a standard hosted Windows 2025 runner on 2026-10-15. Its active procedural demo image had finished rendering before capture. This pixel-exact 964×668 crop contains only the app window; the [full 1040×807 runner capture](docs/images/lightstrike-native-editor-windows2025.png) is retained. [See the green run](https://github.com/Gerbzz/LightStrike/actions/runs/38744234003).*
+
+</details>
 
 LightStrike is an independent, early-alpha fork of the complete [LightCraft](https://github.com/storytold/lightcraft) application. Its Rust workspace contains the desktop editor, catalog and import engine, image pipeline, raw codecs, CLI, export paths and web host. The features below are present in source; the [verified workflows](#validation-status) show what this fork has exercised.
 

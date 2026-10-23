@@ -1,0 +1,8 @@
+asset:        lightstrike-native-editor-windows2025-20261023.png
+title:        LightStrike current native editor screenshot
+author:       LightStrike contributors
+source:       https://github.com/Gerbzz/LightStrike/actions/runs/40019671051
+license:      MIT OR Apache-2.0
+license-file: LICENSE-MIT
+added:        2026-10-23
+notes:        Unmodified app-native screenshot at 1715ed86637accbfda05c42d8648205d7933bf45. The real native photo editor with a settled procedural demo landscape, histogram, develop controls, and filmstrip. Procedural demo media, not a camera photograph or colour-accuracy test. Runtime and packaged icons are unchanged. Exact hashes: docs/images/lightstrike-native-editor-windows2025-20261023.provenance.json.

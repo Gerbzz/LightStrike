@@ -8,6 +8,7 @@ covers a whole directory), or if a licence file referenced in the Licence column
 
 | Path | Asset | Creator | Source | Licence | Added | Modifications |
 |---|---|---|---|---|---|---|
+| `docs/images/lightstrike-native-editor-windows2025-20261023.png` | LightStrike native Windows editor screenshot | LightStrike contributors | [Successful hosted run 40019671051](https://github.com/Gerbzz/LightStrike/actions/runs/40019671051), source `1715ed86637accbfda05c42d8648205d7933bf45`; unmodified provenance-listed native frame | MIT OR Apache-2.0 | 2026-10-23 | Unmodified app viewport image; not a headless render; adjacent provenance and attribution sidecar |
 | `assets/branding/LightStrike-logo.svg` | LightStrike product logo (SVG) | LightStrike contributors (original vector artwork) | Original work; see `assets/branding/LightStrike-logo.provenance.json` | MIT OR Apache-2.0 (`LICENSE-MIT`, `LICENSE-APACHE`) | 2026-10-23 | Original vector master |
 | `assets/branding/LightStrike-logo.png` | LightStrike product logo (PNG) | LightStrike contributors (original vector artwork) | Original work; see `assets/branding/LightStrike-logo.provenance.json` | MIT OR Apache-2.0 (`LICENSE-MIT`, `LICENSE-APACHE`) | 2026-10-23 | Rendered from the SVG master |
 | `assets/fonts/Inter-*.ttf` (Regular, Medium, SemiBold) | Inter | Rasmus Andersson | https://github.com/rsms/inter | SIL Open Font License 1.1 (`assets/fonts/OFL-Inter.txt`) | 2026-09-30 | none |
