@@ -1,0 +1,41 @@
+{
+  "app": "LightStrike",
+  "asset": "docs/images/lightstrike-native-editor-windows2025-20261023.png",
+  "source_head": "1715ed86637accbfda05c42d8648205d7933bf45",
+  "run_id": 40019671051,
+  "run_url": "https://github.com/Gerbzz/LightStrike/actions/runs/40019671051",
+  "artifact_id": 12529917815,
+  "artifact_zip_sha256": "f13a6b1abaf71703477d65850412fda8339d4a149174ccb766db7cb84b98229f",
+  "original_artifact_image_path": "native-editor.png",
+  "capture_method": "App-native ui.screenshot with headless=false; settled-render, fallback rejection, decoded-image and provenance gates passed.",
+  "environment": "Standard hosted Windows 2025 runner",
+  "description": "The real native photo editor with a settled procedural demo landscape, histogram, develop controls, and filmstrip.",
+  "limitations": "Procedural demo media, not a camera photograph or colour-accuracy test. Runtime and packaged icons are unchanged.",
+  "unmodified": true,
+  "sha256": "6b270f62ff013d7765c08147699965d3940ab4f51030e71cf551e4d4f67a6a1a",
+  "git_blob_sha": "1aae2541cd15a8041a24a03b1c80e4ccdd89a75c",
+  "bytes": 315116,
+  "dimensions": [
+    1024,
+    768
+  ],
+  "mode": "RGBA",
+  "decoded_rgba_sha256": "5b93f785455ccf1de449493b3f500eb809ae4f11e9fe1cd8dc5739dd44d2cc37",
+  "full_unique_colors": 23935,
+  "original_artifact_provenance": {
+    "repository": "Gerbzz/LightStrike",
+    "source_head": "1715ed86637accbfda05c42d8648205d7933bf45",
+    "run_id": "40019671051",
+    "run_attempt": "1",
+    "captured_at_utc": "2026-10-23T20:36:35.4532116Z",
+    "method": "Running LightStrike ui.screenshot headless=false; native egui Screenshot event; synchronous headless-fallback warning rejected after logs drain; settled-render and PNG detail gates passed",
+    "fixture": "Repository-generated synthetic test material; no user project or capture device opened",
+    "images": [
+      {
+        "file": "native-editor.png",
+        "bytes": 315116,
+        "sha256": "6b270f62ff013d7765c08147699965d3940ab4f51030e71cf551e4d4f67a6a1a"
+      }
+    ]
+  }
+}
