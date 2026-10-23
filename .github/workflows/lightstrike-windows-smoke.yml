@@ -1,6 +1,18 @@
 name: LightStrike Windows bounded smoke
 
 on:
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/lightstrike-windows-smoke.yml
+      - scripts/ci_windows_native.ps1
+      - scripts/ci_synthetic_photo.py
+      - assets/branding/**
+      - assets/app-icon/**
+      - apps/**
+      - crates/**
+      - Cargo.toml
+      - Cargo.lock
   push:
     branches: [feature/lightstrike-foundation]
     paths:
@@ -28,6 +40,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
       - name: Install pinned Rust
         shell: pwsh
@@ -43,6 +56,67 @@ jobs:
       - name: Launch native photo editor and capture settled workspace when available
         shell: pwsh
         run: ./scripts/ci_windows_native.ps1 -Executable target/smoke/lightcraft.exe -Output "$env:RUNNER_TEMP/lightstrike-windows"
+      - name: Require a settled real native photo-editor screenshot
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $folder = Join-Path $env:RUNNER_TEMP 'lightstrike-windows'
+          $status = Get-Content -Raw -LiteralPath (Join-Path $folder 'native-status.json') | ConvertFrom-Json
+          if ($status.capture -ne 'captured' -or $status.render_settled -ne $true -or $status.process_running -ne $true -or $status.capture_method -ne 'native_viewport_screenshot' -or $status.headless_fallback_rejected -ne $true) { throw 'Native editor capture is unavailable or its photo render did not settle; no screenshot can be published' }
+          $png = Join-Path $folder 'native-editor.png'
+          $file = Get-Item -LiteralPath $png
+          if ($file.Length -lt 10000 -or $file.Length -gt 5MB) { throw 'Unexpected native editor screenshot size' }
+          Add-Type -AssemblyName System.Drawing
+          $bitmap = [System.Drawing.Bitmap]::new($png)
+          try {
+            if ($bitmap.Width -lt 400 -or $bitmap.Height -lt 300 -or $bitmap.Width -ne $status.native_width -or $bitmap.Height -ne $status.native_height) { throw 'Native screenshot dimensions do not match the verified editor window' }
+            $colors = [System.Collections.Generic.HashSet[int]]::new()
+            $minimum = 255
+            $maximum = 0
+            $stepX = [Math]::Max(1, [int]($bitmap.Width / 64))
+            $stepY = [Math]::Max(1, [int]($bitmap.Height / 64))
+            for ($y = 0; $y -lt $bitmap.Height; $y += $stepY) {
+              for ($x = 0; $x -lt $bitmap.Width; $x += $stepX) {
+                $pixel = $bitmap.GetPixel($x, $y)
+                $null = $colors.Add($pixel.ToArgb())
+                $value = [int](($pixel.R + $pixel.G + $pixel.B) / 3)
+                $minimum = [Math]::Min($minimum, $value)
+                $maximum = [Math]::Max($maximum, $value)
+              }
+            }
+            if ($colors.Count -lt 32 -or ($maximum - $minimum) -lt 40) { throw 'Native screenshot lacks rendered image detail' }
+          } finally { $bitmap.Dispose() }
+      - name: Record exact source and native screenshot hashes
+        shell: pwsh
+        env:
+          SCREENSHOT_EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $head = (git rev-parse HEAD).Trim()
+          if ($head -ne $env:SCREENSHOT_EXPECTED_HEAD) { throw 'Screenshot checkout differs from requested source head' }
+          $folder = (Join-Path $env:RUNNER_TEMP 'lightstrike-windows')
+          $images = @()
+          foreach ($relative in @('native-editor.png')) {
+            $file = Get-Item -LiteralPath (Join-Path $folder $relative)
+            if ($file.Length -eq 0) { throw "Empty native screenshot: $relative" }
+            $images += [ordered]@{
+              file = $relative
+              bytes = $file.Length
+              sha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $file.FullName).Hash.ToLowerInvariant()
+            }
+          }
+          [ordered]@{
+            repository = $env:GITHUB_REPOSITORY
+            source_head = $head
+            run_id = $env:GITHUB_RUN_ID
+            run_attempt = $env:GITHUB_RUN_ATTEMPT
+            captured_at_utc = [DateTime]::UtcNow.ToString('o')
+            method = 'Running LightStrike ui.screenshot headless=false; native egui Screenshot event; synchronous headless-fallback warning rejected after logs drain; settled-render and PNG detail gates passed'
+            fixture = 'Repository-generated synthetic test material; no user project or capture device opened'
+            images = $images
+          } | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath (Join-Path $folder 'screenshot-provenance.json')
+          git diff --exit-code -- Cargo.lock
+          if ($LASTEXITCODE -ne 0) { throw 'Cargo.lock changed during capture' }
       - name: Preserve only small Windows photo evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -55,5 +129,9 @@ jobs:
             ${{ runner.temp }}/lightstrike-windows/about.png
             ${{ runner.temp }}/lightstrike-windows/native-editor.png
             ${{ runner.temp }}/lightstrike-windows/native-status.json
-          retention-days: 1
+            ${{ runner.temp }}/lightstrike-windows/native-screenshot-response.json
+            ${{ runner.temp }}/lightstrike-windows/native-stdout.txt
+            ${{ runner.temp }}/lightstrike-windows/native-stderr.txt
+            ${{ runner.temp }}/lightstrike-windows/screenshot-provenance.json
+          retention-days: 7
           if-no-files-found: ignore

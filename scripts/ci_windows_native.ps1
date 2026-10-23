@@ -14,12 +14,18 @@ $start.ArgumentList.Add('--memory')
 $start.ArgumentList.Add('--control')
 $start.ArgumentList.Add('18940')
 $start.UseShellExecute = $false
+$start.RedirectStandardOutput = $true
+$start.RedirectStandardError = $true
 # Let the application's Windows renderer probe DX12, Vulkan and GL in order.
 # The public Windows runner has no OpenGL 2.0 context for forced glow.
 $start.Environment['LIGHTCRAFT_GPU'] = '0'
 $start.Environment['LIGHTCRAFT_NO_PREFS'] = '1'
+# Keep fallback warnings observable even if the runner inherited RUST_LOG.
+$start.Environment['LIGHTCRAFT_LOG'] = 'info'
 $process = [System.Diagnostics.Process]::Start($start)
 if ($null -eq $process) { throw 'Windows did not start the photo editor process.' }
+$stdout = $process.StandardOutput.ReadToEndAsync()
+$stderr = $process.StandardError.ReadToEndAsync()
 
 try {
     $handle = [IntPtr]::Zero
@@ -88,22 +94,52 @@ public static class LightStrikeWindowBounds {
     $width = $rect.Right - $rect.Left
     $height = $rect.Bottom - $rect.Top
     if ($width -lt 400 -or $height -lt 300) { throw "Native editor window is unexpectedly small: ${width}x${height}." }
-    $bitmap = [System.Drawing.Bitmap]::new($width, $height)
-    $graphics = [System.Drawing.Graphics]::FromImage($bitmap)
+    $imagePath = Join-Path $directory 'native-editor.png'
+    $client = [System.Net.Sockets.TcpClient]::new()
     try {
-        $graphics.CopyFromScreen($rect.Left, $rect.Top, 0, 0, $bitmap.Size)
-        $bitmap.Save((Join-Path $directory 'native-editor.png'), [System.Drawing.Imaging.ImageFormat]::Png)
+        $client.ReceiveTimeout = 15000
+        $client.SendTimeout = 3000
+        $client.Connect('127.0.0.1', 18940)
+        $stream = $client.GetStream()
+        $request = @{ id = 2; method = 'ui.screenshot'; params = @{ path = $imagePath; headless = $false } } | ConvertTo-Json -Depth 4 -Compress
+        $bytes = [System.Text.Encoding]::UTF8.GetBytes($request + "`n")
+        $stream.Write($bytes, 0, $bytes.Length)
+        $reader = [System.IO.StreamReader]::new($stream)
+        $reply = $reader.ReadLine() | ConvertFrom-Json
+        $reply | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath (Join-Path $directory 'native-screenshot-response.json')
+        if ($reply.id -ne 2 -or $reply.ok -ne $true -or !(Test-Path -LiteralPath $imagePath)) { throw 'Native photo-editor screenshot request failed.' }
+        if ($reply.result.width -lt 400 -or $reply.result.height -lt 300) { throw 'Native viewport screenshot is unexpectedly small.' }
     }
-    finally {
-        $graphics.Dispose()
-        $bitmap.Dispose()
-    }
-    $status['capture'] = 'captured'
+    finally { $client.Dispose() }
+    $process.Refresh()
+    if ($process.HasExited) { throw 'Photo editor exited before native screenshot acceptance.' }
+    $status['capture'] = 'pending_native_validation'
     $status['window_width'] = $width
     $status['window_height'] = $height
+    $status['native_width'] = $reply.result.width
+    $status['native_height'] = $reply.result.height
     $status | ConvertTo-Json | Set-Content -LiteralPath $statusPath
 }
 finally {
     if (!$process.HasExited) { $process.Kill() }
+    $process.WaitForExit()
+    $outText = $stdout.GetAwaiter().GetResult()
+    $errText = $stderr.GetAwaiter().GetResult()
+    $outText | Set-Content -LiteralPath (Join-Path $directory 'native-stdout.txt')
+    $errText | Set-Content -LiteralPath (Join-Path $directory 'native-stderr.txt')
     $process.Dispose()
 }
+
+# LightStrike can silently rasterize a shadow UI after its native compositor times out.
+# The logger writes this warning synchronously to stderr before replying. Logs are fully
+# drained after process teardown above; never accept that fallback as a native frame.
+if (($outText + $errText) -match 'rendering headlessly') {
+    if (Test-Path -LiteralPath $imagePath) { Remove-Item -LiteralPath $imagePath -Force }
+    $status['capture'] = 'rejected_headless_fallback'
+    $status | ConvertTo-Json | Set-Content -LiteralPath $statusPath
+    throw 'ui.screenshot rendered headlessly; no native photo-editor screenshot is accepted.'
+}
+$status['capture'] = 'captured'
+$status['capture_method'] = 'native_viewport_screenshot'
+$status['headless_fallback_rejected'] = $true
+$status | ConvertTo-Json | Set-Content -LiteralPath $statusPath
