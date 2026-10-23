@@ -1,0 +1,28 @@
+{
+  "app": "LightStrike",
+  "created_utc": "2026-10-23",
+  "source": "Original SVG artwork created for this application at the user's request.",
+  "method": "Original manually authored SVG paths/polygons; geometry-only, two solid colors; no gradients, shadows, text, animal, embedded bitmap, stock artwork, or external references.",
+  "description": "Six clean angular aperture blades around a transparent light opening; no three-arm OBS motif.",
+  "renderer": "Inkscape 1.4 (e7c3feb100, 2024-10-09), native SVG export at 1024 x 1024 pixels, transparent background opacity 0; no raster image editing.",
+  "license": "MIT OR Apache-2.0",
+  "scope": "Product artwork in the README. Existing publisher marks, screenshots, runtime artwork, and packaged icons remain unchanged.",
+  "assets": {
+    "svg": {
+      "path": "assets/branding/LightStrike-logo.svg",
+      "sha256": "0e3eefcd127e15ae429fcfff4106dd815bce31c56bc6fbb25897f3e151857156",
+      "git_blob_sha": "8a3f42ce3106f8ced1c735f78659e3962351628a"
+    },
+    "png": {
+      "path": "assets/branding/LightStrike-logo.png",
+      "sha256": "179096108994a647295a0a75c7fd5d0e431a991f7f85de5d368e845ac3aba327",
+      "git_blob_sha": "82484b1f3f43e58e18154e1668f2642369665a46",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "decoded_rgba_sha256": "fc69a0a0a0ce3277d88213ae15aa2fb15aebb8225c0d799a0ef030bb63f73cca"
+    }
+  }
+}

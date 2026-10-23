@@ -1,4 +1,8 @@
 <p align="center">
+  <img src="assets/branding/LightStrike-logo.png" alt="LightStrike product logo" width="128" height="128">
+</p>
+
+<p align="center">
   <img src="assets/branding/PWDS-logo.png" alt="PWDS publisher mark" width="120">
 </p>
 <p align="center"><strong>Published by PWDS</strong></p>
@@ -54,3 +58,7 @@ The images and verification above were produced from application code reviewed a
 The full application foundation is pinned to [LightCraft commit `0da998f24dfc03069d49867f8877af2bf7c51f94`](https://github.com/storytold/lightcraft/commit/0da998f24dfc03069d49867f8877af2bf7c51f94). The original [MIT](LICENSE-MIT) and [Apache-2.0](LICENSE-APACHE) licences, [NOTICE](NOTICE) and [asset attribution](assets/ATTRIBUTION.md) remain. The inherited openly licensed lynx app icon is temporary LightCraft artwork, not a finished LightStrike icon.
 
 LightStrike is published by PWDS. Its existing mark has [separate brand terms](assets/branding/LICENSE-brand.txt). LightStrike is independent of and not endorsed by ArtCraft.
+
+## Product artwork
+
+The LightStrike product mark above has an original [SVG master](assets/branding/LightStrike-logo.svg) and matching PNG. [Asset provenance](assets/branding/LightStrike-logo.provenance.json) records how it was created and the exact file hashes. The PWDS publisher artwork and inherited software credits are unchanged. Existing screenshots retain the artwork visible in their original captured builds.
