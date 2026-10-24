@@ -13,6 +13,12 @@
 
 **Status:** Early alpha. Source builds only; no public installer or release yet.
 
+## Rust direction and migration status
+
+- **Target:** A Rust-native photo library and non-destructive developer, adapting the selected LightCraft base rather than starting a second language rewrite.
+- **Current implementation:** The [Cargo workspace](Cargo.toml) and [desktop entry point](apps/lightcraft/src/main.rs) already implement the LightCraft-based editor in Rust, alongside catalog, image-processing and CLI crates.
+- **Remaining migration:** Extend and validate this Rust foundation. Representative camera RAW files, colour accuracy, large libraries, broader platform behavior and installed packages still need acceptance; early-alpha source is not release completion.
+
 ![LightStrike current native editor with a repository-generated synthetic fixture](docs/images/lightstrike-native-editor-windows2025-20261023.png)
 
 *Unmodified 1024×768 native frame captured on a standard hosted Windows 2025 runner on 23 October 2026 in [successful run 40019671051](https://github.com/Gerbzz/LightStrike/actions/runs/40019671051), exact source `1715ed86637accbfda05c42d8648205d7933bf45`. The real native photo editor with a settled procedural demo landscape, histogram, develop controls, and filmstrip. [Source, hashes and limits](docs/images/lightstrike-native-editor-windows2025-20261023.provenance.json).*
