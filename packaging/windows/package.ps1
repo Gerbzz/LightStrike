@@ -141,7 +141,7 @@ New-PanelBitmap $UiBannerBmp 493 58 0 ([byte[]](0xFF, 0xFF, 0xFF)) ([byte[]](0xF
 $Msi = Join-Path $Dist "lightcraft-$Version-windows-$Arch.msi"
 Invoke-Native 'wix build' {
   wix build (Join-Path $PSScriptRoot 'lightcraft.wxs') -arch $Arch -culture en-us @ExtArgs `
-    -d "Version=$MsiVersion" -d "BinDir=$Stage" -d "IconPath=$(Join-Path $Root 'assets\app-icon\lightcraft.ico')" `
+    -d "Version=$MsiVersion" -d "BinDir=$Stage" -d "IconPath=$(Join-Path $Root 'assets\branding\platform\LightStrike.ico')" `
     -d "UiDialogBmp=$UiDialogBmp" -d "UiBannerBmp=$UiBannerBmp" `
     -o $Msi
 }

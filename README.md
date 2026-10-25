@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/branding/LightStrike-logo.png" alt="LightStrike product logo" width="128" height="128">
+  <img src="assets/branding/LightStrike-logo.svg" alt="LightStrike product logo" width="128" height="128">
 </p>
 
 <p align="center">
@@ -79,3 +79,9 @@ LightStrike is published by PWDS. Its existing mark has [separate brand terms](a
 ## Product artwork
 
 The LightStrike product mark above has an original [SVG master](assets/branding/LightStrike-logo.svg) and matching PNG. [Asset provenance](assets/branding/LightStrike-logo.provenance.json) records how it was created and the exact file hashes. The PWDS publisher artwork and inherited software credits are unchanged. Existing screenshots retain the artwork visible in their original captured builds.
+
+### Approved runtime branding (25 October 2026)
+
+The exact approved [SVG master](assets/branding/LightStrike-logo.svg) is retained as vector artwork. Desktop and packaged icon references use full-page exports without cropping, recoloring, or adding padding. Existing upstream artwork and licence notices are preserved. [Export manifest](assets/branding/platform/manifest.json) and `python tools/export_approved_branding.py --check` bind the derived assets and runtime references to the approved SHA-256. Regenerate with `python tools/export_approved_branding.py` (Inkscape and Pillow). Native platform acceptance of these new exports remains **unknown**; older screenshots are historical.
+
+The macOS DMG backdrop retains its original surrounding layout and outlined text, replacing only the embedded logo with the complete approved SVG page. Regenerate via `python tools/export_approved_dmg.py`; the existing TIFF writer preserves 1x/2x frames. Native Finder/installer acceptance remains unknown.

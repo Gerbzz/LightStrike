@@ -1,0 +1,78 @@
+{
+  "source": "assets/branding/LightStrike-logo.svg",
+  "approved_sha256": "0e3eefcd127e15ae429fcfff4106dd815bce31c56bc6fbb25897f3e151857156",
+  "sizes": [
+    16,
+    20,
+    24,
+    32,
+    40,
+    48,
+    64,
+    128,
+    256,
+    512,
+    1024
+  ],
+  "ico_sizes": [
+    16,
+    20,
+    24,
+    32,
+    40,
+    48,
+    64,
+    128,
+    256
+  ],
+  "outputs": {
+    "assets/branding/platform/LightStrike-16.png": 16,
+    "assets/branding/platform/LightStrike-24.png": 24,
+    "assets/branding/platform/LightStrike-32.png": 32,
+    "assets/branding/platform/LightStrike-48.png": 48,
+    "assets/branding/platform/LightStrike-64.png": 64,
+    "assets/branding/platform/LightStrike-128.png": 128,
+    "assets/branding/platform/LightStrike-256.png": 256,
+    "assets/branding/platform/LightStrike-512.png": 512,
+    "assets/branding/platform/LightStrike-1024.png": 1024,
+    "assets/branding/platform/LightStrike.ico": "ico",
+    "assets/branding/platform/LightStrike.icns": "icns",
+    "assets/branding/platform/hicolor/16x16/apps/ai.storyteller.lightcraft.png": 16,
+    "assets/branding/platform/hicolor/24x24/apps/ai.storyteller.lightcraft.png": 24,
+    "assets/branding/platform/hicolor/32x32/apps/ai.storyteller.lightcraft.png": 32,
+    "assets/branding/platform/hicolor/48x48/apps/ai.storyteller.lightcraft.png": 48,
+    "assets/branding/platform/hicolor/64x64/apps/ai.storyteller.lightcraft.png": 64,
+    "assets/branding/platform/hicolor/128x128/apps/ai.storyteller.lightcraft.png": 128,
+    "assets/branding/platform/hicolor/256x256/apps/ai.storyteller.lightcraft.png": 256,
+    "assets/branding/platform/hicolor/512x512/apps/ai.storyteller.lightcraft.png": 512,
+    "assets/branding/platform/hicolor/scalable/apps/ai.storyteller.lightcraft.svg": "svg",
+    "apps/lightcraft-web/LightStrike-logo.svg": "svg"
+  },
+  "references": {
+    "apps/lightcraft/build.rs": [
+      "assets/branding/platform/LightStrike.ico"
+    ],
+    "apps/lightcraft/src/main.rs": [
+      "assets/branding/platform/LightStrike-512.png",
+      "assets/branding/platform/hicolor"
+    ],
+    "packaging/freebsd/package.sh": [
+      "assets/branding/platform/hicolor"
+    ],
+    "packaging/macos/package.sh": [
+      "assets/branding/platform/LightStrike.icns"
+    ],
+    "packaging/linux/package.sh": [
+      "assets/branding/platform/hicolor"
+    ],
+    "packaging/linux/flatpak/ai.storyteller.lightcraft.yml": [
+      "assets/branding/platform/hicolor"
+    ],
+    "xtask/src/web.rs": [
+      "\"LightStrike-logo.svg\""
+    ],
+    "packaging/windows/package.ps1": [
+      "assets\\branding\\platform\\LightStrike.ico"
+    ]
+  }
+}

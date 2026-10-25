@@ -7,13 +7,13 @@
 
 fn main() {
     println!("cargo:rerun-if-changed=build.rs");
-    println!("cargo:rerun-if-changed=../../assets/app-icon/lightcraft.ico");
+    println!("cargo:rerun-if-changed=../../assets/branding/platform/LightStrike.ico");
     println!("cargo:rerun-if-env-changed=LIGHTCRAFT_REQUIRE_WINRES");
     if std::env::var("CARGO_CFG_TARGET_OS").as_deref() != Ok("windows") {
         return;
     }
     let mut res = winresource::WindowsResource::new();
-    res.set_icon("../../assets/app-icon/lightcraft.ico")
+    res.set_icon("../../assets/branding/platform/LightStrike.ico")
         .set("ProductName", "LightCraft")
         .set("FileDescription", "LightCraft photo library and raw developer")
         .set("LegalCopyright", "Copyright (c) the LightCraft authors. MIT OR Apache-2.0.")

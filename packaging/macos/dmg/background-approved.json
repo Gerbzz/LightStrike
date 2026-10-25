@@ -1,0 +1,17 @@
+{
+  "approved_sha256": "0e3eefcd127e15ae429fcfff4106dd815bce31c56bc6fbb25897f3e151857156",
+  "renderer": "resvg 0.47.0; existing generate.py write_tiff; Pillow 12+",
+  "logo_page": [
+    0,
+    84,
+    232,
+    232
+  ],
+  "native_acceptance": "unknown",
+  "files": {
+    "background.svg": "f9399489adccaf0615f4b237f77992033b80b597ece489cf7e828d3f7a01c948",
+    "generate.py": "2e74e35af3207884468cb44fbe5bca7b51821fb448aa2d75a1d399274415bf19",
+    "background-approved.svg": "4c00a3e47524e2baba980feaefd67e3ddf4ae11a1d0fd7daf74d002cb30789ec",
+    "background-approved.tiff": "45a9867477609b995852c62a3d241503cbdfe6834a2d6ef66e1092ec54b0b6ff"
+  }
+}

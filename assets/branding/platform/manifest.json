@@ -1,0 +1,92 @@
+{
+  "source": "assets/branding/LightStrike-logo.svg",
+  "approved_sha256": "0e3eefcd127e15ae429fcfff4106dd815bce31c56bc6fbb25897f3e151857156",
+  "transform": "Full original SVG page; unchanged proportions, centering and padding",
+  "native_acceptance": "unknown",
+  "files": {
+    "assets/branding/platform/LightStrike-16.png": {
+      "sha256": "2673c6abdf7ff7380e0afa813e2ed4a686e803164c05a17f6c36b91402affffb",
+      "kind": 16
+    },
+    "assets/branding/platform/LightStrike-24.png": {
+      "sha256": "0e4aa7b9b2e5255e4e2cb19c2474b479570a3399a985c012503c054792614790",
+      "kind": 24
+    },
+    "assets/branding/platform/LightStrike-32.png": {
+      "sha256": "d5f9030185aafb79764f452da17ee0ac6cb2cf257ff3b4e7fc88d2c1bf52fd64",
+      "kind": 32
+    },
+    "assets/branding/platform/LightStrike-48.png": {
+      "sha256": "17719c06e93dcb2a45fa9b683bb9fd6dadac9dad36d96cd4432314637c7b7334",
+      "kind": 48
+    },
+    "assets/branding/platform/LightStrike-64.png": {
+      "sha256": "e49aa367f9cdba9192325c7414912109f5d3b94c84d3b98432e9520c6d860ff8",
+      "kind": 64
+    },
+    "assets/branding/platform/LightStrike-128.png": {
+      "sha256": "7f9e80a0a0a7d1bf688f89f542b12ac19384ef0f22adec1a5491a83f3beeda17",
+      "kind": 128
+    },
+    "assets/branding/platform/LightStrike-256.png": {
+      "sha256": "2da929b1c1763f73b8e558d73255a8c70052534c168abb68f57cfeb462d5efcf",
+      "kind": 256
+    },
+    "assets/branding/platform/LightStrike-512.png": {
+      "sha256": "fac791b7a02912b1070727635c7daf62d1441f7d6395993cc9770b3c2ece9005",
+      "kind": 512
+    },
+    "assets/branding/platform/LightStrike-1024.png": {
+      "sha256": "ece24612fd865195375ac9182ca4f432efd76a9f5627d6f5df321261833074de",
+      "kind": 1024
+    },
+    "assets/branding/platform/LightStrike.ico": {
+      "sha256": "21cd0c6778da4599b0098dea42ac6ea446453ac6954ad99870a63227e0429c13",
+      "kind": "ico"
+    },
+    "assets/branding/platform/LightStrike.icns": {
+      "sha256": "e462092c3d56defb4f7ab2d0d673fe642a06bec9ab6755afed1f53c8c210ac45",
+      "kind": "icns"
+    },
+    "assets/branding/platform/hicolor/16x16/apps/ai.storyteller.lightcraft.png": {
+      "sha256": "2673c6abdf7ff7380e0afa813e2ed4a686e803164c05a17f6c36b91402affffb",
+      "kind": 16
+    },
+    "assets/branding/platform/hicolor/24x24/apps/ai.storyteller.lightcraft.png": {
+      "sha256": "0e4aa7b9b2e5255e4e2cb19c2474b479570a3399a985c012503c054792614790",
+      "kind": 24
+    },
+    "assets/branding/platform/hicolor/32x32/apps/ai.storyteller.lightcraft.png": {
+      "sha256": "d5f9030185aafb79764f452da17ee0ac6cb2cf257ff3b4e7fc88d2c1bf52fd64",
+      "kind": 32
+    },
+    "assets/branding/platform/hicolor/48x48/apps/ai.storyteller.lightcraft.png": {
+      "sha256": "17719c06e93dcb2a45fa9b683bb9fd6dadac9dad36d96cd4432314637c7b7334",
+      "kind": 48
+    },
+    "assets/branding/platform/hicolor/64x64/apps/ai.storyteller.lightcraft.png": {
+      "sha256": "e49aa367f9cdba9192325c7414912109f5d3b94c84d3b98432e9520c6d860ff8",
+      "kind": 64
+    },
+    "assets/branding/platform/hicolor/128x128/apps/ai.storyteller.lightcraft.png": {
+      "sha256": "7f9e80a0a0a7d1bf688f89f542b12ac19384ef0f22adec1a5491a83f3beeda17",
+      "kind": 128
+    },
+    "assets/branding/platform/hicolor/256x256/apps/ai.storyteller.lightcraft.png": {
+      "sha256": "2da929b1c1763f73b8e558d73255a8c70052534c168abb68f57cfeb462d5efcf",
+      "kind": 256
+    },
+    "assets/branding/platform/hicolor/512x512/apps/ai.storyteller.lightcraft.png": {
+      "sha256": "fac791b7a02912b1070727635c7daf62d1441f7d6395993cc9770b3c2ece9005",
+      "kind": 512
+    },
+    "assets/branding/platform/hicolor/scalable/apps/ai.storyteller.lightcraft.svg": {
+      "sha256": "0e3eefcd127e15ae429fcfff4106dd815bce31c56bc6fbb25897f3e151857156",
+      "kind": "svg"
+    },
+    "apps/lightcraft-web/LightStrike-logo.svg": {
+      "sha256": "0e3eefcd127e15ae429fcfff4106dd815bce31c56bc6fbb25897f3e151857156",
+      "kind": "svg"
+    }
+  }
+}
